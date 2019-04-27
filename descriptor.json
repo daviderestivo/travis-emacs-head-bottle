@@ -4,5 +4,8 @@
         "repo": "homebrew-emacs-head",
         "subject": "daviderestivo"
     },
+    "version": {
+        "name": "26.2"
+    },
     "publish": false
 }
