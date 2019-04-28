@@ -9,7 +9,7 @@
   },
   "files": [
     {
-      "includePattern": "\./(.*).bottle.tar.gz",
+      "includePattern": "\./(.*\.bottle\.tar\.gz)",
       "uploadPattern": "/$1"
     }
   ],
