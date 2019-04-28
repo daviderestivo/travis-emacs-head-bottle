@@ -1,11 +1,17 @@
 {
-    "package": {
-        "name": "bottles",
-        "repo": "homebrew-emacs-head",
-        "subject": "daviderestivo"
-    },
-    "version": {
-        "name": "26.2"
-    },
-    "publish": false
+  "package": {
+    "name": "bottles",
+    "repo": "homebrew-emacs-head",
+    "subject": "daviderestivo"
+  },
+  "version": {
+    "name": "26.2"
+  },
+  "files": [
+    {
+      "includePattern": "\./(.*).bottle.tar.gz",
+      "uploadPattern": "/$1"
+    }
+  ],
+  "publish": false
 }
