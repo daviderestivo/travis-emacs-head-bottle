@@ -6,21 +6,31 @@ branches:
   - master
 matrix:
   include:
-  - env: BUILD_OPTIONS="--with-cocoa --with-no-frame-refocus --with-imagemagick --with-multicolor-fonts"
+    # Emacs 26.x on Sierra      (macOS 10.12 - xcode9.2) - All options (imagemagick@6)
+  - env:
+    - BUILD_OPTIONS="--with-cocoa --with-no-frame-refocus --with-imagemagick --with-multicolor-fonts"
+    - REBUILD="8"
     osx_image: xcode9.2
-  - env: BUILD_OPTIONS="--with-cocoa --with-no-frame-refocus --with-imagemagick --with-multicolor-fonts"
+    # Emacs 26.x on High Sierra (macOS 10.13 - xcode10.1) - All options (imagemagick@6)
+  - env:
+    - BUILD_OPTIONS="--with-cocoa --with-no-frame-refocus --with-imagemagick --with-multicolor-fonts"
+    - REBUILD="8"
     osx_image: xcode10.1
-  - env: BUILD_OPTIONS="--with-cocoa --with-no-frame-refocus --with-imagemagick --with-multicolor-fonts"
-    osx_image: xcode10.2
+    # Emacs 26.x on Mojave      (macOS 10.14 - xcode11.0) - All options (imagemagick@6)
+  - env:
+    - BUILD_OPTIONS="--with-cocoa --with-no-frame-refocus --with-imagemagick --with-multicolor-fonts"
+    - REBUILD="8"
+    osx_image: xcode11.0
 before_install:
-- brew update
-- brew tap daviderestivo/emacs-head
+  - brew update
+  - brew tap daviderestivo/emacs-head
 script:
-- brew install --build-bottle emacs-head $BUILD_OPTIONS
-- brew bottle emacs-head
+  - brew install --build-bottle emacs-head $BUILD_OPTIONS
+  - brew bottle emacs-head
 before_deploy:
-- export RELEASE_FILES=$(ls *.bottle.tar.gz)
-- 'echo ''Deploying files to Bintray: ''$RELEASE_FILES'
+  - export RELEASE_FILES=$(ls *.bottle.tar.gz)
+  - 'echo Rename release files...'
+  - 'echo ''Deploying release files to Bintray: ''$RELEASE_FILES...'
 deploy:
   provider: bintray
   file: descriptor.json
