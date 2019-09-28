@@ -9,17 +9,14 @@ matrix:
     # Emacs 26.x on Sierra      (macOS 10.12 - xcode9.2) - All options (imagemagick@6)
   - env:
     - BUILD_OPTIONS="--with-cocoa --with-no-frame-refocus --with-imagemagick --with-multicolor-fonts"
-    - REBUILD="7"
     osx_image: xcode9.2
     # Emacs 26.x on High Sierra (macOS 10.13 - xcode10.1) - All options (imagemagick@6)
   - env:
     - BUILD_OPTIONS="--with-cocoa --with-no-frame-refocus --with-imagemagick --with-multicolor-fonts"
-    - REBUILD="7"
     osx_image: xcode10.1
     # Emacs 26.x on Mojave      (macOS 10.14 - xcode11.0) - All options (imagemagick@6)
   - env:
     - BUILD_OPTIONS="--with-cocoa --with-no-frame-refocus --with-imagemagick --with-multicolor-fonts"
-    - REBUILD="7"
     osx_image: xcode11.0
 before_install:
   - brew update
@@ -29,8 +26,9 @@ script:
   - brew bottle emacs-head
 before_deploy:
   - export RELEASE_FILES=$(ls *.bottle.tar.gz)
+  - export REBUILD="7"
   - 'echo Rename release files...'
-  - 'for i in *.bottle.tar.gz; do mv $i `echo $i | sed -E  's/^(emacs-head--)(.*)(.tar.gz)$/emacs-head-\2.'$REBUILD'\3/'`; done'
+  - for i in $RELEASE_FILES; do mv $i `echo $i | sed -E  's/^(emacs-head--)(.*)(.tar.gz)$/emacs-head-\2.'$REBUILD'\3/'`; done
   - 'echo ''Deploying release files to Bintray: ''$RELEASE_FILES...'
 deploy:
   provider: bintray
