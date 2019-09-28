@@ -27,9 +27,13 @@ script:
 before_deploy:
   - export RELEASE_FILES=$(ls *.bottle.tar.gz)
   - export REBUILD="7"
+  - 'echo Original release file names:'
+  - ls *.tar.gz
   - 'echo Rename release files...'
   - for i in $RELEASE_FILES; do mv $i `echo $i | sed -E  's/^(emacs-head--)(.*)(.tar.gz)$/emacs-head-\2.'$REBUILD'\3/'`; done
-  - 'echo ''Deploying release files to Bintray: ''$RELEASE_FILES...'
+  - 'echo Renamed release file names:'
+  - ls *.tar.gz
+  - 'echo Deploying release files to Bintray...'
 deploy:
   provider: bintray
   file: descriptor.json
