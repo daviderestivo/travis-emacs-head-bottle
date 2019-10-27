@@ -22,7 +22,7 @@ before_install:
   - brew update
   - brew tap daviderestivo/emacs-head
 script:
-  - brew install --build-bottle emacs-head $BUILD_OPTIONS
+  - brew install --verbose --build-bottle emacs-head $BUILD_OPTIONS
   - brew bottle emacs-head
 before_deploy:
   - export RELEASE_FILES=$(ls *.bottle.tar.gz)
