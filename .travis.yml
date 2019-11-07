@@ -6,10 +6,6 @@ branches:
   - master
 matrix:
   include:
-    # Emacs 26.x on Sierra      (macOS 10.12 - xcode9.2) - All options (imagemagick@6)
-  - env:
-    - BUILD_OPTIONS="--with-cocoa --with-no-frame-refocus --with-imagemagick --with-multicolor-fonts"
-    osx_image: xcode9.2
     # Emacs 26.x on High Sierra (macOS 10.13 - xcode10.1) - All options (imagemagick@6)
   - env:
     - BUILD_OPTIONS="--with-cocoa --with-no-frame-refocus --with-imagemagick --with-multicolor-fonts"
