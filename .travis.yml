@@ -10,19 +10,20 @@ matrix:
   - env:
     - BUILD_OPTIONS="--with-cocoa --with-no-frame-refocus --with-imagemagick --with-multicolor-fonts"
     osx_image: xcode10.1
-    # Emacs 26.x on Mojave      (macOS 10.14 - xcode11.0) - All options (imagemagick@6)
+    # Emacs 26.x on Mojave      (macOS 10.14 - xcode11.3) - All options (imagemagick@6)
   - env:
     - BUILD_OPTIONS="--with-cocoa --with-no-frame-refocus --with-imagemagick --with-multicolor-fonts"
-    osx_image: xcode11.0
+    osx_image: xcode11.3
 before_install:
   - brew update
+  - brew unlink python@2
   - brew tap daviderestivo/emacs-head
 script:
   - brew install --build-bottle emacs-head $BUILD_OPTIONS
   - brew bottle emacs-head
 before_deploy:
   - export RELEASE_FILES=$(ls *.bottle.tar.gz)
-  - export REBUILD="7"
+  - export REBUILD="8"
   - 'echo Original release file names:'
   - ls *.tar.gz
   - 'echo Rename release files...'
