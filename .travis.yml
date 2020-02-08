@@ -1,10 +1,15 @@
+language: generic
+
 sudo: false
+
 os:
 - osx
+
 branches:
   only:
   - master
-matrix:
+
+jobs:
   include:
     # Emacs 26.x on High Sierra (macOS 10.13 - xcode10.1) - All options (imagemagick@6)
   - env:
@@ -14,13 +19,16 @@ matrix:
   - env:
     - BUILD_OPTIONS="--with-cocoa --with-no-frame-refocus --with-imagemagick --with-multicolor-fonts"
     osx_image: xcode11.3
+
 before_install:
   - brew update
   - brew unlink python@2
   - brew tap daviderestivo/emacs-head
+
 script:
   - brew install --build-bottle emacs-head $BUILD_OPTIONS
   - brew bottle emacs-head
+
 before_deploy:
   - export RELEASE_FILES=$(ls *.bottle.tar.gz)
   - export REBUILD="8"
@@ -31,6 +39,7 @@ before_deploy:
   - 'echo Renamed release file names:'
   - ls *.tar.gz
   - 'echo Deploying release files to Bintray...'
+
 deploy:
   provider: bintray
   file: descriptor.json
