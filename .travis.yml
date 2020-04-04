@@ -16,7 +16,6 @@ matrix:
     osx_image: xcode11.3
 before_install:
   - brew update
-  - brew unlink python@2
   - brew tap daviderestivo/emacs-head
 script:
   - brew install --build-bottle emacs-head $BUILD_OPTIONS
