@@ -22,7 +22,6 @@ jobs:
 
 before_install:
   - brew update
-  - brew unlink python@2
   - brew tap daviderestivo/emacs-head
 
 script:
