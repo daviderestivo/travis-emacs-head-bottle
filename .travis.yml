@@ -13,28 +13,50 @@ jobs:
   include:
     # Emacs 26.x on High Sierra (macOS 10.13 - xcode10.1) - All options (imagemagick@6)
   - env:
-    - BUILD_OPTIONS="--with-cocoa --with-no-frame-refocus --with-imagemagick --with-multicolor-fonts"
+    - BUILD_OPTIONS="emacs-head --with-cocoa --with-no-frame-refocus --with-imagemagick --with-multicolor-fonts"
+    - BOTTLE=emacs-head
     osx_image: xcode10.1
     # Emacs 26.x on Mojave      (macOS 10.14 - xcode11.3) - All options (imagemagick@6)
   - env:
-    - BUILD_OPTIONS="--with-cocoa --with-no-frame-refocus --with-imagemagick --with-multicolor-fonts"
+    - BUILD_OPTIONS="emacs-head --with-cocoa --with-no-frame-refocus --with-imagemagick --with-multicolor-fonts"
+    - BOTTLE=emacs-head
     osx_image: xcode11.3
+    # Emacs 26.x on Catalina    (macOS 10.15.4 - xcode11.5) - All options (imagemagick@6)
+  - env:
+    - BUILD_OPTIONS="emacs-head --with-cocoa --with-no-frame-refocus --with-imagemagick --with-multicolor-fonts"
+    - BOTTLE=emacs-head
+    osx_image: xcode11.5
+    # Emacs 27.x on High Sierra (macOS 10.13 - xcode10.1) - All options (imagemagick@7)
+  - env:
+    - BUILD_OPTIONS="emacs-head@27 --with-cocoa --with-no-frame-refocus --with-imagemagick --with-jansson --with-pdumper --with-xwidgets"
+    - BOTTLE=emacs-head@27
+    osx_image: xcode10.1
+    # Emacs 27.x on Mojave      (macOS 10.14 - xcode11.3) - All options (imagemagick@7)
+  - env:
+    - BUILD_OPTIONS="emacs-head@27 --with-cocoa --with-no-frame-refocus --with-imagemagick --with-jansson --with-pdumper --with-xwidgets"
+    - BOTTLE=emacs-head@27
+    osx_image: xcode11.3
+    # Emacs 26.x on Catalina    (macOS 10.15.4 - xcode11.5) - All options (imagemagick@7)
+  - env:
+    - BUILD_OPTIONS="emacs-head@27 --with-cocoa --with-no-frame-refocus --with-imagemagick --with-jansson --with-pdumper --with-xwidgets"
+    - BOTTLE=emacs-head@27
+    osx_image: xcode11.5
 
 before_install:
   - brew update
   - brew tap daviderestivo/emacs-head
 
 script:
-  - brew install --build-bottle emacs-head $BUILD_OPTIONS
-  - brew bottle emacs-head
+  - brew install --build-bottle $BUILD_OPTIONS
+  - brew bottle $BOTTLE
 
 before_deploy:
-  - export RELEASE_FILES=$(ls *.bottle.tar.gz)
-  - export REBUILD="8"
+  - export REBUILD="9"
+  - export RELEASE_FILES=$(ls *.${REBUILD}.tar.gz)
   - 'echo Original release file names:'
   - ls *.tar.gz
   - 'echo Rename release files...'
-  - for i in $RELEASE_FILES; do mv $i `echo $i | sed -E  's/^(emacs-head--)(.*)(.tar.gz)$/emacs-head-\2.'$REBUILD'\3/'`; done
+  - for i in $RELEASE_FILES; do mv $i `echo $i | sed -E 's/^(emacs-head|emacs-head@27)--(*.tar.gz)$/\1-\2/'`; done
   - 'echo Renamed release file names:'
   - ls *.tar.gz
   - 'echo Deploying release files to Bintray...'
