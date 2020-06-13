@@ -52,11 +52,11 @@ script:
 
 before_deploy:
   - export REBUILD="9"
-  - export RELEASE_FILES=$(ls *.${REBUILD}.tar.gz)
+  - export RELEASE_FILES=$(ls *.bottle.tar.gz)
   - 'echo Original release file names:'
   - ls *.tar.gz
   - 'echo Rename release files...'
-  - for i in $RELEASE_FILES; do mv $i `echo $i | sed -E 's/^(emacs-head|emacs-head@27)--(*.tar.gz)$/\1-\2/'`; done
+  - for i in $RELEASE_FILES; do mv $i `echo $i | sed -E  's/^('$BOTTLE'--)(.*)(.tar.gz)$/'$BOTTLE'-\2.'$REBUILD'\3/'`; done
   - 'echo Renamed release file names:'
   - ls *.tar.gz
   - 'echo Deploying release files to Bintray...'
