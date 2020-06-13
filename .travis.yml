@@ -15,31 +15,37 @@ jobs:
   - env:
     - BUILD_OPTIONS="emacs-head --with-cocoa --with-no-frame-refocus --with-imagemagick --with-multicolor-fonts"
     - BOTTLE=emacs-head
+    - VERSION=26
     osx_image: xcode10.1
     # Emacs 26.x on Mojave      (macOS 10.14 - xcode11.3) - All options (imagemagick@6)
   - env:
     - BUILD_OPTIONS="emacs-head --with-cocoa --with-no-frame-refocus --with-imagemagick --with-multicolor-fonts"
     - BOTTLE=emacs-head
+    - VERSION=26
     osx_image: xcode11.3
     # Emacs 26.x on Catalina    (macOS 10.15.4 - xcode11.5) - All options (imagemagick@6)
   - env:
     - BUILD_OPTIONS="emacs-head --with-cocoa --with-no-frame-refocus --with-imagemagick --with-multicolor-fonts"
     - BOTTLE=emacs-head
+    - VERSION=26
     osx_image: xcode11.5
     # Emacs 27.x on High Sierra (macOS 10.13 - xcode10.1) - All options (imagemagick@7)
   - env:
     - BUILD_OPTIONS="emacs-head@27 --with-cocoa --with-no-frame-refocus --with-imagemagick --with-jansson --with-pdumper --with-xwidgets"
     - BOTTLE=emacs-head@27
+    - VERSION=27
     osx_image: xcode10.1
     # Emacs 27.x on Mojave      (macOS 10.14 - xcode11.3) - All options (imagemagick@7)
   - env:
     - BUILD_OPTIONS="emacs-head@27 --with-cocoa --with-no-frame-refocus --with-imagemagick --with-jansson --with-pdumper --with-xwidgets"
     - BOTTLE=emacs-head@27
+    - VERSION=27
     osx_image: xcode11.3
     # Emacs 26.x on Catalina    (macOS 10.15.4 - xcode11.5) - All options (imagemagick@7)
   - env:
     - BUILD_OPTIONS="emacs-head@27 --with-cocoa --with-no-frame-refocus --with-imagemagick --with-jansson --with-pdumper --with-xwidgets"
     - BOTTLE=emacs-head@27
+    - VERSION=27
     osx_image: xcode11.5
 
 before_install:
@@ -63,7 +69,7 @@ before_deploy:
 
 deploy:
   provider: bintray
-  file: descriptor.json
+  file: descriptor-$VERSION.json
   user: daviderestivo
   key:
     secure: JNyinkz4kPE/AojtRkJtQSqtbs9KypbB/19sg3Py9r8B7n8GD2U98kgwT/68esZo4J/UL+MT+b992JmRcw3wqQEPvHcg1p2FFi0yMRjcDFqDAyQPWx9ijMzlvQ8YPjYHYSjv+yGU7mgbah1DOurbabQJTh0R85pOU6rYchzkoVisfk0BvOBh87xAwSWjHYyDNBaI1YnqsBAtgP6T0JBBBHT8eH6UrfALAsIeJk6epFLpCS+UnG8qHjfGwwl+dNf+OknsK5n9TO06uZhO6s0LIS+YH6a3Dwn0aSNxb8jA0NbNg4iTPT6Cs2pSVo7Ut7g86qPcz+KErA9imtk6b5rV0zMAEhJFUiGsihrXNk7A7a4j/C3wtqO4OYXsy4vyDAhltXeDUweeF6piri396+SsWNDV3A+RHwKi+Kcp334HNm7GQUwS7mUTLEdZfgzOJA/9GCv5O5jxZyRuJBAbrYWvfL+x3fhVz6SPHmhUbfY5DZnCLCnvyT6vP/v/DM/Q4mxa1g1vp5GBAJSL7DAaZ/6Ybyc3L169nJwqmAn42qddpVeq2vqHvXhzXt+EDk+uhn1Nc/Ywxr7qy363qn9ZX1E0YO2Q+yeiRm2WQKHygojhFdl+6bgox8BrecxP9Ia8gIw9Okx1qCooEVhViO1DE76o7PoogY9BewAU0XgQWngjRMM=

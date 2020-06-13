@@ -1,0 +1,17 @@
+{
+  "package": {
+    "name": "bottles",
+    "repo": "homebrew-emacs-head",
+    "subject": "daviderestivo"
+  },
+  "version": {
+    "name": "27.0.91"
+  },
+  "files": [
+    {
+      "includePattern": "\./(.*\.bottle\.[0-9]*\.tar\.gz)",
+      "uploadPattern": "/$1"
+    }
+  ],
+  "publish": false
+}
