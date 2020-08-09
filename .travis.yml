@@ -54,14 +54,17 @@ jobs:
     osx_image: xcode11.5
 
 before_install:
-  - export HOMEBREW_NO_INSTALL_CLEANUP=1
   - brew update
-  - git clone https://github.com/daviderestivo/homebrew-emacs-head.git
-  - cd homebrew-emacs-head
+  #- travis_wait 50 brew upgrade
+  - brew tap daviderestivo/emacs-head
+  - cd /usr/local/Homebrew/Library/Taps/daviderestivo/homebrew-emacs-head/
+  - git config remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
   - if  [ -z "$OVERRIDE_MASTER_BRANCH" ] ; then BRANCH=master; else BRANCH=$OVERRIDE_MASTER_BRANCH; fi
   - git checkout $BRANCH
 
 script:
+  - export HOMEBREW_NO_INSTALL_CLEANUP=1
+  - export HOMEBREW_NO_AUTO_UPDATE=1
   - brew install --build-bottle $BUILD_OPTIONS
   - brew bottle $BOTTLE
 
