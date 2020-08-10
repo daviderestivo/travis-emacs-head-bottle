@@ -12,60 +12,63 @@ jobs:
   include:
     # Emacs 26.x on High Sierra (macOS 10.13 - xcode10.1) - All options (imagemagick@6)
   - env:
-    - BUILD_OPTIONS="Formula/emacs-head.rb --with-cocoa --with-no-frame-refocus --with-imagemagick --with-multicolor-fonts"
+    - BUILD_OPTIONS="emacs-head --with-cocoa --with-no-frame-refocus --with-imagemagick --with-multicolor-fonts"
     - BOTTLE=emacs-head
     - VERSION=26
     - REBUILD=9
     osx_image: xcode10.1
     # Emacs 26.x on Mojave      (macOS 10.14 - xcode11.3) - All options (imagemagick@6)
   - env:
-    - BUILD_OPTIONS="Formula/emacs-head.rb --with-cocoa --with-no-frame-refocus --with-imagemagick --with-multicolor-fonts"
+    - BUILD_OPTIONS="emacs-head --with-cocoa --with-no-frame-refocus --with-imagemagick --with-multicolor-fonts"
     - BOTTLE=emacs-head
     - VERSION=26
     - REBUILD=9
     osx_image: xcode11.3
     # Emacs 26.x on Catalina    (macOS 10.15.4 - xcode11.5) - All options (imagemagick@6)
   - env:
-    - BUILD_OPTIONS="Formula/emacs-head.rb --with-cocoa --with-no-frame-refocus --with-imagemagick --with-multicolor-fonts"
+    - BUILD_OPTIONS="emacs-head --with-cocoa --with-no-frame-refocus --with-imagemagick --with-multicolor-fonts"
     - BOTTLE=emacs-head
     - VERSION=26
     - REBUILD=9
     osx_image: xcode11.5
     # Emacs 27.x on High Sierra (macOS 10.13 - xcode10.1) - All options (imagemagick@7)
   - env:
-    - BUILD_OPTIONS="Formula/emacs-head@27.rb --with-cocoa --with-no-frame-refocus --with-imagemagick --with-jansson --with-pdumper --with-xwidgets"
+    - BUILD_OPTIONS="emacs-head@27 --with-cocoa --with-no-frame-refocus --with-imagemagick --with-jansson --with-pdumper --with-xwidgets"
     - BOTTLE=emacs-head@27
     - VERSION=27
     - REBUILD=10
     osx_image: xcode10.1
     # Emacs 27.x on Mojave      (macOS 10.14 - xcode11.3) - All options (imagemagick@7)
   - env:
-    - BUILD_OPTIONS="Formula/emacs-head@27.rb --with-cocoa --with-no-frame-refocus --with-imagemagick --with-jansson --with-pdumper --with-xwidgets"
+    - BUILD_OPTIONS="emacs-head@27 --with-cocoa --with-no-frame-refocus --with-imagemagick --with-jansson --with-pdumper --with-xwidgets"
     - BOTTLE=emacs-head@27
     - VERSION=27
     - REBUILD=10
     osx_image: xcode11.3
     # Emacs 27.x on Catalina    (macOS 10.15.4 - xcode11.5) - All options (imagemagick@7)
   - env:
-    - BUILD_OPTIONS="Formula/emacs-head@27.rb --with-cocoa --with-no-frame-refocus --with-imagemagick --with-jansson --with-pdumper --with-xwidgets"
+    - BUILD_OPTIONS="emacs-head@27 --with-cocoa --with-no-frame-refocus --with-imagemagick --with-jansson --with-pdumper --with-xwidgets"
     - BOTTLE=emacs-head@27
     - VERSION=27
     - REBUILD=10
     osx_image: xcode11.5
 
 before_install:
-  - brew update
-  #- travis_wait 50 brew upgrade
   - brew tap daviderestivo/emacs-head
+  # Pin all packages in order to avoid upgrading them
+  # - brew upgrade -n -q | grep -v "==>" | awk '{print $1}' | while read package; do brew pin ${package}; done
   - cd /usr/local/Homebrew/Library/Taps/daviderestivo/homebrew-emacs-head/
   - git config remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
+  - git branch -r | grep -v 'origin/master' | while read remote; do git branch --track "${remote#origin/}" "$remote"; done
+  - git fetch --all
+  - git pull --all
   - if  [ -z "$OVERRIDE_MASTER_BRANCH" ] ; then BRANCH=master; else BRANCH=$OVERRIDE_MASTER_BRANCH; fi
   - git checkout $BRANCH
 
 script:
   - export HOMEBREW_NO_INSTALL_CLEANUP=1
   - export HOMEBREW_NO_AUTO_UPDATE=1
-  - brew install --build-bottle $BUILD_OPTIONS
+  - travis_wait 50 brew install --build-bottle $BUILD_OPTIONS
   - brew bottle $BOTTLE
 
 before_deploy:
