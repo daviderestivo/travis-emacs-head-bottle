@@ -68,7 +68,11 @@ before_install:
 script:
   - export HOMEBREW_NO_INSTALL_CLEANUP=1
   - export HOMEBREW_NO_AUTO_UPDATE=1
-  - travis_wait 50 brew install --build-bottle $BUILD_OPTIONS
+  - |
+    while sleep 9m; do
+      echo "===> [ $SECONDS seconds still running ] <==="
+    done &
+  - brew install --build-bottle $BUILD_OPTIONS
   - brew bottle $BOTTLE
 
 before_deploy:
