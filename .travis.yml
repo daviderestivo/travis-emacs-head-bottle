@@ -1,5 +1,6 @@
 language: generic
 
+sudo: true
 os:
 - osx
 
@@ -54,9 +55,12 @@ jobs:
     osx_image: xcode11.5
 
 before_install:
+  - export HOMEBREW_NO_INSTALL_CLEANUP=1
+  - export HOMEBREW_NO_AUTO_UPDATE=1
+  - brew update
+  - brew uninstall boost openblas cgal gdal numpy postgis sfcgal
+  - brew pin gcc
   - brew tap daviderestivo/emacs-head
-  # Pin all packages in order to avoid upgrading them
-  # - brew upgrade -n -q | grep -v "==>" | awk '{print $1}' | while read package; do brew pin ${package}; done
   - cd /usr/local/Homebrew/Library/Taps/daviderestivo/homebrew-emacs-head/
   - git config remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
   - git branch -r | grep -v 'origin/master' | while read remote; do git branch --track "${remote#origin/}" "$remote"; done
@@ -66,10 +70,11 @@ before_install:
   - git checkout $BRANCH
 
 script:
-  - export HOMEBREW_NO_INSTALL_CLEANUP=1
-  - export HOMEBREW_NO_AUTO_UPDATE=1
   - |
-    while sleep 9m; do
+    # Prints a banner message every 9 mins to avoid travis build to
+    # fail in case a commands take longer than 10 mins. This is an
+    # alternative to travis_wait that does not log in case of failure.
+    while sleep 540; do
       echo "===> [ $SECONDS seconds still running ] <==="
     done &
   - brew install --build-bottle $BUILD_OPTIONS
