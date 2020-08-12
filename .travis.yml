@@ -61,6 +61,7 @@ before_install:
   # Pin all packages
   - brew upgrade -n -q | grep -v "==>" | awk '{print $1}' | while read PACKAGE; do brew pin $PACKAGE; done
   # Unpin emacs-head dependencies explicitly
+  - brew unpin automake cmake
   - brew deps $BOTTLE | while read DEPENDENCY; do brew unpin $DEPENDENCY; done
   - cd /usr/local/Homebrew/Library/Taps/daviderestivo/homebrew-emacs-head/
   - git config remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
