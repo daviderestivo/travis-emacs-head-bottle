@@ -70,6 +70,7 @@ before_install:
   # Unpin emacs-head dependencies explicitly
   - brew deps $BOTTLE | while read DEPENDENCY; do brew unpin $DEPENDENCY; done
   - brew unpin automake cmake
+  - cd $TRAVIS_BUILD_DIR
 
 script:
   - |
