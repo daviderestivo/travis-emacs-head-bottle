@@ -54,6 +54,7 @@ jobs:
     osx_image: xcode11.5
 
 before_install:
+  - PWD=$(pwd)
   - export HOMEBREW_NO_INSTALL_CLEANUP=1
   - export HOMEBREW_NO_AUTO_UPDATE=1
   - brew update
@@ -70,7 +71,7 @@ before_install:
   # Unpin emacs-head dependencies explicitly
   - brew deps $BOTTLE | while read DEPENDENCY; do brew unpin $DEPENDENCY; done
   - brew unpin automake cmake
-  - cd $TRAVIS_BUILD_DIR
+  - cd $PWD
 
 script:
   - |
