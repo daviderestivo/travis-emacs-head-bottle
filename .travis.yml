@@ -54,7 +54,6 @@ jobs:
     osx_image: xcode11.5
 
 before_install:
-  - PWD=$(pwd)
   - export HOMEBREW_NO_INSTALL_CLEANUP=1
   - export HOMEBREW_NO_AUTO_UPDATE=1
   - brew update
@@ -71,7 +70,8 @@ before_install:
   # Unpin emacs-head dependencies explicitly
   - brew deps $BOTTLE | while read DEPENDENCY; do brew unpin $DEPENDENCY; done
   - brew unpin automake cmake
-  - cd $PWD
+  # Go back to the TRAVIS_BUILD_DIR
+  - cd $TRAVIS_BUILD_DIR
 
 script:
   - |
@@ -96,6 +96,7 @@ before_deploy:
 
 deploy:
   - provider: bintray
+    skip_cleanup: true
     file: descriptor-$VERSION.json
     user: daviderestivo
     on:
@@ -104,6 +105,7 @@ deploy:
       secure: JNyinkz4kPE/AojtRkJtQSqtbs9KypbB/19sg3Py9r8B7n8GD2U98kgwT/68esZo4J/UL+MT+b992JmRcw3wqQEPvHcg1p2FFi0yMRjcDFqDAyQPWx9ijMzlvQ8YPjYHYSjv+yGU7mgbah1DOurbabQJTh0R85pOU6rYchzkoVisfk0BvOBh87xAwSWjHYyDNBaI1YnqsBAtgP6T0JBBBHT8eH6UrfALAsIeJk6epFLpCS+UnG8qHjfGwwl+dNf+OknsK5n9TO06uZhO6s0LIS+YH6a3Dwn0aSNxb8jA0NbNg4iTPT6Cs2pSVo7Ut7g86qPcz+KErA9imtk6b5rV0zMAEhJFUiGsihrXNk7A7a4j/C3wtqO4OYXsy4vyDAhltXeDUweeF6piri396+SsWNDV3A+RHwKi+Kcp334HNm7GQUwS7mUTLEdZfgzOJA/9GCv5O5jxZyRuJBAbrYWvfL+x3fhVz6SPHmhUbfY5DZnCLCnvyT6vP/v/DM/Q4mxa1g1vp5GBAJSL7DAaZ/6Ybyc3L169nJwqmAn42qddpVeq2vqHvXhzXt+EDk+uhn1Nc/Ywxr7qy363qn9ZX1E0YO2Q+yeiRm2WQKHygojhFdl+6bgox8BrecxP9Ia8gIw9Okx1qCooEVhViO1DE76o7PoogY9BewAU0XgQWngjRMM=
   - provider: bintray
     file: descriptor-$VERSION.json
+    skip_cleanup: true
     user: daviderestivo
     on:
       branch: dev
