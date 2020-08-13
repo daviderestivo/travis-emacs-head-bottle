@@ -58,8 +58,6 @@ before_install:
   - export HOMEBREW_NO_AUTO_UPDATE=1
   - brew update
   - brew tap daviderestivo/emacs-head
-  # Pin all packages
-  - brew upgrade -n -q | grep -v "==>" | awk '{print $1}' | while read PACKAGE; do brew pin $PACKAGE; done
   - cd /usr/local/Homebrew/Library/Taps/daviderestivo/homebrew-emacs-head/
   - git config remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
   - git branch -r | grep -v 'origin/master' | while read remote; do git branch --track "${remote#origin/}" "$remote"; done
@@ -67,8 +65,11 @@ before_install:
   - git pull --all
   - if  [ -z "$OVERRIDE_MASTER_BRANCH" ] ; then BRANCH=master; else BRANCH=$OVERRIDE_MASTER_BRANCH; fi
   - git checkout $BRANCH
+  # Pin all packages
+  - brew upgrade -n -q | grep -v "==>" | awk '{print $1}' | while read PACKAGE; do brew pin $PACKAGE; done
   # Unpin emacs-head dependencies explicitly
   - brew deps $BOTTLE | while read DEPENDENCY; do brew unpin $DEPENDENCY; done
+  - brew unpin automake cmake
 
 script:
   - |
