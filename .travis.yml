@@ -33,21 +33,21 @@ jobs:
     osx_image: xcode11.5
     # Emacs 27.x on High Sierra (macOS 10.13 - xcode10.1) - All options (imagemagick@7)
   - env:
-    - BUILD_OPTIONS="emacs-head@27 --with-cocoa --with-no-frame-refocus --with-imagemagick --with-jansson --with-pdumper --with-xwidgets"
+    - BUILD_OPTIONS="emacs-head@27 --with-cocoa --with-no-frame-refocus --with-imagemagick --with-pdumper --with-xwidgets"
     - BOTTLE=emacs-head@27
     - VERSION=27
     - REBUILD=1
     osx_image: xcode10.1
     # Emacs 27.x on Mojave      (macOS 10.14 - xcode11.3) - All options (imagemagick@7)
   - env:
-    - BUILD_OPTIONS="emacs-head@27 --with-cocoa --with-no-frame-refocus --with-imagemagick --with-jansson --with-pdumper --with-xwidgets"
+    - BUILD_OPTIONS="emacs-head@27 --with-cocoa --with-no-frame-refocus --with-imagemagick --with-pdumper --with-xwidgets"
     - BOTTLE=emacs-head@27
     - VERSION=27
     - REBUILD=1
     osx_image: xcode11.3
     # Emacs 27.x on Catalina    (macOS 10.15.4 - xcode11.5) - All options (imagemagick@7)
   - env:
-    - BUILD_OPTIONS="emacs-head@27 --with-cocoa --with-no-frame-refocus --with-imagemagick --with-jansson --with-pdumper --with-xwidgets"
+    - BUILD_OPTIONS="emacs-head@27 --with-cocoa --with-no-frame-refocus --with-imagemagick --with-pdumper --with-xwidgets"
     - BOTTLE=emacs-head@27
     - VERSION=27
     - REBUILD=1
